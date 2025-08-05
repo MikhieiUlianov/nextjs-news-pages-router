@@ -25,8 +25,8 @@ function NewsletterRegistration() {
         if (response.ok) {
           response.json();
         }
-        return response.json().then((data) => {
-          throw new Error(data.message || "Something went wrong!");
+        response.json().then((data) => {
+          throw new Error(error.message || "Something went wrong!");
         });
       })
       .then((data) =>
