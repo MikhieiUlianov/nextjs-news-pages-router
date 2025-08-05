@@ -32,9 +32,19 @@ export default async function handler(req, res) {
     console.log(result);
 
     newComment.id = result.insertedId;
+
+    res.status(200).json({ message: "Inserting comment successfully" });
   }
   if (req.method === "GET") {
-    //return data
+    const documents = db
+      .collection("comments")
+      .find()
+      .sort({ _id: -1 })
+      .toArray();
+
+    res
+      .status(200)
+      .json({ message: "Get data successfully", comments: documents });
   }
 
   client.close();
