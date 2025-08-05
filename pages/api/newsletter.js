@@ -1,8 +1,6 @@
-import fs from "fs";
+import { MongoClient } from "mongodb";
 
-import { getEmailPath, getPathData } from "../../helpers/api-routes";
-
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method === "POST") {
     const userEmail = req.body.email;
     if (!userEmail || !userEmail.includes("@")) {
@@ -11,16 +9,14 @@ export default function handler(req, res) {
         .json({ message: "Invalid email address", email: userEmail });
       return;
     }
+    const client = await MongoClient.connect(
+      "mongodb+srv://news-nextjs-old:123454321@cluster0.sd5uhop.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    );
+    const db = client.db();
+    await db.collection("emails").insertOne({ email: userEmail });
+
+    client.close();
+
     res.status(201).json({ message: "Fetch email succesfully" });
   }
 }
-/* export default function handler(req, res) {
-  if (req.method === "POST") {
-    const filePath = getEmailPath();
-    const fileData = getPathData(filePath);
-    fileData.push(req.body);
-    fs.writeFileSync(filePath, JSON.stringify(newData));
-    res.status(200).join({ message: "Fetch path data succesfully", fileData });
-  }
-}
- */

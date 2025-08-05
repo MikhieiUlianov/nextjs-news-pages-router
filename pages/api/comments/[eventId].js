@@ -1,5 +1,3 @@
-import { getCommentsPath, getPathData } from "../../../helpers/api-routes";
-
 export default function handler(req, res) {
   const eventId = req.query.eventId;
   if (req.method === "POST") {
@@ -27,12 +25,3 @@ export default function handler(req, res) {
     //return data
   }
 }
-
-/* export default function handler(req, res) {
-  const path = getCommentsPath();
-  const commentsData = getPathData(path);
-  if (req.method === "POST") {
-    commentsData.push(req.body);
-    res.status(201).json({ message: "Success", commentsData });
-  }
-} */
